@@ -10,7 +10,6 @@ const isLogin = async (req, res, next) => {
   const decodeduser = verifyToken(token);
 
   // save the user into req obj
-
   if (!decodeduser) {
     return next(appError("Invalid User", 401));
   }

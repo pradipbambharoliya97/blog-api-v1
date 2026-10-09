@@ -341,7 +341,6 @@ exports.updateUserProfileCtrl = async (req, res, next) => {
   const { email, firstname, lastname } = req.body;
   try {
     // check if email is not taken alredy by other
-
     if (email) {
       const emailTaken = await User.findOne({ email });
 
