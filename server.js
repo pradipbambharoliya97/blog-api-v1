@@ -7,34 +7,12 @@ const commentsRoutes = require("./routes/comments/commentsRoutes");
 const categoriesRoutes = require("./routes/categories/categoriesRoutes");
 const globalErrorHandler = require("./middlewares/globalErrorHandler");
 const Post = require("./modal/Post/Post");
+const corsOptions = require("./utils/corsOptions");
 
 require("dotenv").config();
 require("./config/dbConnect");
 
 const app = express();
-
-// CORS configuration
-const allowedOrigins = [
-  "http://localhost:3000",
-  "http://localhost:3001",
-  "http://127.0.0.1:3000",
-  "https://blog-api-v1-uy97.onrender.com",
-  process.env.FRONTEND_URL,
-  process.env.CLIENT_URL,
-].filter(Boolean);
-
-const corsOptions = {
-  origin: (origin, callback) => {
-    // Allow requests with no origin (e.g. mobile apps, curl, Postman) or matching origins
-    if (!origin || allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    }
-    return callback(null, true);
-  },
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-};
 
 app.use(cors(corsOptions));
 
