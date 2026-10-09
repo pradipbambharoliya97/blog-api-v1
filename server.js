@@ -13,6 +13,7 @@ const app = express();
 
 app.use(express.json());
 
+app.get("/", () => "Base route");
 // middlewares
 
 // routes
