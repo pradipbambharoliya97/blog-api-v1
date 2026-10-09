@@ -13,7 +13,9 @@ const app = express();
 
 app.use(express.json());
 
-app.get("/", () => "Base route");
+app.get("/api/v1", () => ({
+  message: "Base route",
+}));
 // middlewares
 
 // routes
