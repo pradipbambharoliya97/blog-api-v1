@@ -5,6 +5,7 @@ const postsRouter = require("./routes/posts/postsRoutes");
 const commentsRoutes = require("./routes/comments/commentsRoutes");
 const categoriesRoutes = require("./routes/categories/categoriesRoutes");
 const globalErrorHandler = require("./middlewares/globalErrorHandler");
+const Post = require("./modal/Post/Post");
 
 require("dotenv").config();
 require("./config/dbConnect");
@@ -13,9 +14,19 @@ const app = express();
 
 app.use(express.json());
 
-app.get("/api/v1", () => ({
-  message: "Base route",
-}));
+app.get("/", async (req, res) => {
+  try {
+    const posts = await Post.find();
+
+    res.json({
+      status: "success",
+      data: posts,
+    });
+  } catch (error) {
+    res.json(error.message);
+  }
+});
+
 // middlewares
 
 // routes
