@@ -1,451 +1,270 @@
-# **Blog API Application Project**
+# Blog API Application
+
+A REST API for a blog application built with Node.js, Express, MongoDB, Mongoose, and JWT authentication.
 
 ## Tech Stack
 
-**Server:** Node, Express, MongoDB, Mongoose, JWT
+- **Runtime:** Node.js
+- **Framework:** Express.js
+- **Database:** MongoDB
+- **ODM:** Mongoose
+- **Authentication:** JSON Web Tokens (JWT)
 
 ## 🔗 Social Links
 
 [![Portfolio](https://img.shields.io/badge/Portfolio-Visit-915EFF?style=for-the-badge&logo=vercel&logoColor=white)](https://pradip-reactjs-portfolio.vercel.app)
-
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/pradip-bambharoliya-reactjs)
-
 [![GitHub](https://img.shields.io/badge/GitHub-Follow-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/pradipbambharoliya97)
 
-[![Upwork](https://img.shields.io/badge/Upwork-Hire%20Me-14A800?style=for-the-badge&logo=upwork&logoColor=white)](YOUR_UPWORK_PROFILE_URL)
+> **Upwork:** Add your Upwork profile badge after you have copied your public profile URL.
 
-# **API FEATURES**
+## ✨ Features
 
-- Authentication & Authorization
-- Post CRUD operations
-- Comment functionality
-- System blocking user if inactive for 30 days
-- Admin can block a user
-- A user can block different users
-- A user who block another user cannot see his/her posts
-- Last date a post was created
-- Check if a user is active or not
-- Check last date a user was active
-- Changing user award base on number of posts created by the user
-- A user can follow and unfollow another user
-- Get following and followers count
-- Get total profile viewers count
-- Get posts created count
-- Get blocked counts
-- Get all users who views someone's profile
-- Admin can unblock a blocked user
-- Update password
-- Profile photo uploaded
-- A user can close his/her account
+- User registration and login
+- JWT-based authentication and authorization
+- Create, read, update, and delete posts
+- Create, update, and delete comments
+- Like and dislike posts
+- Follow and unfollow users
+- View followers and following counts
+- View profile-viewer information and counts
+- Track user activity and the last active date
+- Track the last post creation date
+- Automatically block inactive users after 30 days
+- Admin ability to block and unblock users
+- User ability to block and unblock other users
+- Prevent users from seeing content from users they have blocked
+- Update account password and profile information
+- Upload a profile photo
+- Close/delete a user account
+- Assign user awards based on post count
+- View post count and blocked-user counts
 
-# ENDPOINTS
+Only keep features in this list that are implemented and working in your current API.
 
-- [API Authentication](#API-Authentication)
-  - [ Register a new API client](#Register-a-new-API-client)
-  - [ login](#User-Login)
+## 🚀 Run Locally
 
-- [Users](#api)
-  - [Get my profile](#get-my-profile)
-  - [Get all users](#Get-all-users)
-  - [View a user profile Count](#view-a-user-profile)
-  - [Following a user](#Following-a-user)
-  - [#UnFollowing-a-user](#UnFollowing-a-user)
-  - [Update user password](#Update-user-password)
-  - [Update your profile](#Update-your-profile)
-  - [Block another user](#Block-user)
-  - [Unblock another user](#Unblock-user)
-  - [Admin blocking a user](#Admin-blocking-a-user)
-  - [Admin Unblocking a user](#Admin-unblocking-a-user)
-  - [Delete your account](#Delete-your-account)
-  - [Upload Profile Photo](#Upload-Profile-Photo)
+### 1. Clone the repository
 
-- [Posts](#Posts-API-Refeference)
-  - [Create Post](#Create-Post)
-  - [Get All Posts](#Get-All-Posts)
-  - [Get Single Post](#Get-Single-Post)
-  - [Toggle Post like](#Toggle-Post-like)
-  - [Toggle Post dislike](#Toggle-Post-dislike)
-  - [Update Post](#Update-Post)
-  - [Delete Post](#Delete-Post)
-
-- [Comments](#Comment-API-Reference)
-  - [Create comment](#Create-Comment)
-  - [Update post](#Update-Comment)
-  - [Delete post](#Delete-Comment)
-
-## Run Locally
-
-Clone the project
+Replace the placeholder with the actual URL of your project repository:
 
 ```bash
-  git clone https://link-to-project
+git clone YOUR_GITHUB_REPOSITORY_URL
+cd YOUR_PROJECT_DIRECTORY
 ```
 
-Go to the project directory
+### 2. Install dependencies
 
 ```bash
-  cd my-project
+npm install
 ```
 
-Install dependencies
+### 3. Configure environment variables
+
+Create a `.env` file in the project root and add the variables required by your application. At minimum, the existing documentation identifies `MONGODB_URL`; your code may require additional values such as a JWT secret.
+
+```env
+MONGODB_URL=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+```
+
+Use the exact environment variable names referenced by your code. Never commit your real `.env` file, database credentials, or JWT secrets to a public repository.
+
+### 4. Start the server
 
 ```bash
-  npm install
+npm run server
 ```
 
-Start the server
+Make sure `server` is a script defined in your `package.json`. If your project uses a different script, use the correct command.
 
-```bash
-  npm run server
+## 🌐 Base URL
+
+The deployed API base URL documented for this project is:
+
+```text
+https://blog-api-v3-inovotek.onrender.com/
 ```
 
-## Environment Variables
+Example endpoint:
 
-To run this project, you will need to add the following environment variables to your .env file
+```text
+https://blog-api-v3-inovotek.onrender.com/api/v1/users/login
+```
 
-`MONGODB_URL`
+## 🔐 Authentication
 
-##### baseURL = `https://blog-api-v3-inovotek.onrender.com/`
+Some endpoints require authentication. Register and log in to obtain an access token, then send it in the `Authorization` header.
 
-# API Authentication
+```http
+Authorization: Bearer YOUR_ACCESS_TOKEN
+```
 
-Some endpoints may require authentication for example. To create a create/delete/update post, you need to register your API client and obtain an access token.
+Do not share real access tokens in public documentation, screenshots, or source control.
 
-The endpoints that require authentication expect a bearer token sent in the `Authorization header`.
+## 📚 API Reference
 
-**Example**:
+The routes below are based on the existing project documentation. Before publishing, confirm each HTTP method and path against the Express route definitions, especially the follow/unfollow, like/dislike, profile-photo upload, and delete-post endpoints.
 
-`Authorization: Bearer YOUR TOKEN`
+### Authentication
 
-## Register a new API client
+| Action                         | Method | Endpoint                 |
+| ------------------------------ | ------ | ------------------------ |
+| Register a new user/API client | `POST` | `/api/v1/users/register` |
+| Log in                         | `POST` | `/api/v1/users/login`    |
+
+#### Register
 
 ```http
 POST /api/v1/users/register
+Content-Type: application/json
 ```
 
-The request body needs to be in JSON format.
+Add the request fields required by your registration controller. The current documentation does not specify the complete registration schema.
 
-# **API Reference**
-
-## **User Login**
+#### Log in
 
 ```http
 POST /api/v1/users/login
+Content-Type: application/json
 ```
-
-| Parameter        | Type     | Description   | Required |
-| :--------------- | :------- | :------------ | :------- |
-| `authentication` | `string` | Your token    | no       |
-| `email`          | `string` | Your email    | yes      |
-| `password`       | `string` | Your password | yes      |
 
 Example request body:
 
-```javascript
+```json
 {
-  "email":"your email"
-  "password":"your password"
+  "email": "you@example.com",
+  "password": "your-password"
 }
 ```
 
-## **get my profile**
+### Users
 
-```http
-GET /api/v1/users/profile
-```
+| Action                                  | Method                      | Endpoint                             |
+| --------------------------------------- | --------------------------- | ------------------------------------ |
+| Get my profile                          | `GET`                       | `/api/v1/users/profile`              |
+| Get all users                           | `GET`                       | `/api/v1/users/users`                |
+| View a user's profile / profile viewers | `GET`                       | `/api/v1/users/profile-viewers/:id`  |
+| Follow a user                           | Verify in route definitions | `/api/v1/users/following/:id`        |
+| Unfollow a user                         | Verify in route definitions | `/api/v1/users/unfollowing/:id`      |
+| Update password                         | `PUT`                       | `/api/v1/users/update-password`      |
+| Update profile                          | `PUT`                       | `/api/v1/users`                      |
+| Block a user                            | `PUT`                       | `/api/v1/users/block/:id`            |
+| Unblock a user                          | `PUT`                       | `/api/v1/users/unblock/:id`          |
+| Admin: block a user                     | `PUT`                       | `/api/v1/users/admin-block/:id`      |
+| Admin: unblock a user                   | `PUT`                       | `/api/v1/users/admin-unblock/:id`    |
+| Delete account                          | `DELETE`                    | `/api/v1/users/delete-account`       |
+| Upload profile photo                    | Verify in route definitions | `/api/v1/users/profile-photo-upload` |
 
-| Parameter        | Type     | Description | Required |
-| :--------------- | :------- | :---------- | :------- |
-| `authentication` | `string` | Your token  | yes      |
+For protected endpoints, send the bearer token in the `Authorization` header.
 
-## **Get all users**
-
-```http
-GET /api/v1/users/users
-```
-
-| Parameter        | Type     | Description | Required |
-| :--------------- | :------- | :---------- | :------- |
-| `authentication` | `string` | Your token  | no       |
-
-## **view a user profile**
-
-```http
-GET /api/v1/users/profile-viewers/:id
-```
-
-| Parameter        | Type     | Description                                 | Required |
-| :--------------- | :------- | :------------------------------------------ | :------- |
-| `authentication` | `string` | Your token                                  | yes      |
-| `id`             | `string` | ID of the user you want to view his profile | yes      |
-
-#### **Following a user**
-
-```http
-GET /api/v1/users/following/:id
-```
-
-| Parameter        | Type     | Description                       | Required |
-| :--------------- | :------- | :-------------------------------- | :------- |
-| `authentication` | `string` | Your token                        | yes      |
-| `id`             | `string` | ID of the user you want to follow | yes      |
-
-## **UnFollowing a user**
-
-```http
-GET /api/v1/users/unfollowing/:id
-```
-
-| Parameter        | Type     | Description                       | Required |
-| :--------------- | :------- | :-------------------------------- | :------- |
-| `authentication` | `string` | Your token                        | yes      |
-| `id`             | `string` | ID of the user you want to follow | yes      |
-
-## **Update user password**
+#### Update password
 
 ```http
 PUT /api/v1/users/update-password
+Authorization: Bearer YOUR_ACCESS_TOKEN
+Content-Type: application/json
 ```
 
-| Parameter        | Type     | Description         | Required |
-| :--------------- | :------- | :------------------ | :------- |
-| `authentication` | `string` | Your token          | yes      |
-| `password`       | `string` | Enter your password | yes      |
-
-Example request body:
-
-```javascript
+```json
 {
-  "password":"value"
+  "password": "your-new-password"
 }
 ```
 
-## **Update your profile**
+#### Update profile
 
 ```http
 PUT /api/v1/users
+Authorization: Bearer YOUR_ACCESS_TOKEN
+Content-Type: application/json
 ```
 
-| Parameter        | Type     | Description          | Required |
-| :--------------- | :------- | :------------------- | :------- |
-| `authentication` | `string` | Your token           | yes      |
-| `email`          | `string` | Enter your email     | no       |
-| `firstname`      | `string` | Enter your firstname | no       |
-| `lastname`       | `string` | Enter your lastname  | no       |
+Example request body (include only fields supported by your API):
 
-Example request body:
-
-```javascript
+```json
 {
-  "email":"value",
-  "firstname":"value",
-  "lastname":"value",
+  "email": "you@example.com",
+  "firstname": "Pradip",
+  "lastname": "Bambharoliya"
 }
 ```
 
-## **Block another user**
+### Posts
+
+| Action            | Method                      | Endpoint                     |
+| ----------------- | --------------------------- | ---------------------------- |
+| Create a post     | `POST`                      | `/api/v1/posts`              |
+| Get all posts     | `GET`                       | `/api/v1/posts`              |
+| Get a single post | `GET`                       | `/api/v1/posts/:id`          |
+| Toggle like       | Verify in route definitions | `/api/v1/postslikes/:id`     |
+| Toggle dislike    | Verify in route definitions | `/api/v1/posts/dislikes/:id` |
+| Update a post     | `PUT`                       | `/api/v1/posts/:id`          |
+| Delete a post     | Verify in route definitions | `/api/v1/posts/:id`          |
+
+#### Create a post
 
 ```http
-PUT /api/v1/users/block/:id
+POST /api/v1/posts
+Authorization: Bearer YOUR_ACCESS_TOKEN
+Content-Type: application/json
 ```
 
-| Parameter        | Type     | Description                      | Required |
-| :--------------- | :------- | :------------------------------- | :------- |
-| `authentication` | `string` | Your token                       | yes      |
-| `id`             | `string` | Id of the user you want to block | yes      |
+The existing documentation lists `title`, `description`, `category`, and `photo` as post fields:
 
-## **Unblock user**
-
-```http
-PUT /api/v1/users/unblock/:id
-```
-
-| Parameter        | Type     | Description                        | Required |
-| :--------------- | :------- | :--------------------------------- | :------- |
-| `authentication` | `string` | Your token                         | yes      |
-| `id`             | `string` | Id of the user you want to unblock | yes      |
-
-## **Admin blocking a user**
-
-```http
-PUT /api/v1/users/admin-block/:id
-```
-
-| Parameter        | Type     | Description                      | Required |
-| :--------------- | :------- | :------------------------------- | :------- |
-| `authentication` | `string` | Your token                       | yes      |
-| `id`             | `string` | Id of the user you want to block | yes      |
-
-## **Admin unblocking a user**
-
-```http
-PUT /api/v1/users/admin-unblock/:id
-```
-
-| Parameter        | Type     | Description                        | Required |
-| :--------------- | :------- | :--------------------------------- | :------- |
-| `authentication` | `string` | Your token                         | yes      |
-| `id`             | `string` | Id of the user you want to unblock | yes      |
-
-## **Delete your account**
-
-```http
-  DELETE /api/v1/users/delete-account
-```
-
-| Parameter        | Type     | Description | Required |
-| :--------------- | :------- | :---------- | :------- |
-| `authentication` | `string` | Your token  | yes      |
-
-## **Upload Profile Photo**
-
-```http
-  DELETE /api/v1/users/profile-photo-upload
-```
-
-| Parameter        | Type     | Description     | Required |
-| :--------------- | :------- | :-------------- | :------- |
-| `authentication` | `string` | Your token      | yes      |
-| `profilePhoto`   | `string` | Image to upload | yes      |
-
-# **Posts API Refeference**
-
-## **Create Post**
-
-```http
-  POST /api/v1/posts
-```
-
-| Parameter        | Type     | Description        | Required |
-| :--------------- | :------- | :----------------- | :------- |
-| `authentication` | `string` | Your token         | yes      |
-| `title`          | `string` | Post title         | yes      |
-| `description`    | `string` | Post description   | yes      |
-| `category`       | `string` | ID of the category | yes      |
-| `photo`          | `string` | Image of the post  | yes      |
-
-Example request body:
-
-```javascript
+```json
 {
-  "title":"value",
-  "description":"value",
-  "category":"value",
-  "photo":"photo",
+  "title": "My first post",
+  "description": "Write your post content here.",
+  "category": "CATEGORY_ID",
+  "photo": "IMAGE_URL_OR_SUPPORTED_UPLOAD_VALUE"
 }
 ```
 
-## **Get All Posts**
+Confirm whether `photo` is expected as a URL/string or uploaded as multipart form data in your implementation.
+
+#### Update a post
 
 ```http
-  GET /api/v1/posts
+PUT /api/v1/posts/:id
+Authorization: Bearer YOUR_ACCESS_TOKEN
+Content-Type: application/json
 ```
 
-| Parameter        | Type     | Description | Required |
-| :--------------- | :------- | :---------- | :------- |
-| `authentication` | `string` | Your token  | no       |
-
-## **Get Single Post**
-
-```http
-  GET /api/v1/posts/:id
-```
-
-| Parameter        | Type     | Description    | Required |
-| :--------------- | :------- | :------------- | :------- |
-| `authentication` | `string` | Your token     | yes      |
-| `id`             | `string` | ID of the post | yes      |
-
-## **Toggle Post like**
-
-```http
-  GET /api/v1/postslikes/:id
-```
-
-| Parameter        | Type     | Description    | Required |
-| :--------------- | :------- | :------------- | :------- |
-| `authentication` | `string` | Your token     | yes      |
-| `id`             | `string` | ID of the post | yes      |
-
-## **Toggle Post dislike**
-
-```http
-  GET /api/v1/posts/dislikes/:id
-```
-
-| Parameter        | Type     | Description    | Required |
-| :--------------- | :------- | :------------- | :------- |
-| `authentication` | `string` | Your token     | yes      |
-| `id`             | `string` | ID of the post | yes      |
-
-## **Update Post**
-
-```http
-  PUT /api/v1/posts/:id
-```
-
-| Parameter        | Type     | Description             | Required |
-| :--------------- | :------- | :---------------------- | :------- |
-| `authentication` | `string` | Your token              | yes      |
-| `id`             | `string` | ID of the post          | yes      |
-| `title`          | `string` | title of the post       | yes      |
-| `description`    | `string` | description of the post | yes      |
-| `category`       | `string` | category of the post    | yes      |
-| `photo`          | `string` | photo of the post       | yes      |
-
-Example request body:
-
-```javascript
+```json
 {
-  "title":"value",
-  "description":"value",
-  "category":"value",
-  "photo":"photo",
+  "title": "Updated post title",
+  "description": "Updated post content",
+  "category": "CATEGORY_ID",
+  "photo": "IMAGE_URL_OR_SUPPORTED_UPLOAD_VALUE"
 }
 ```
 
-## **Delete Post**
+### Comments
 
-```http
-  GET /api/v1/posts/dislikes/:id
-```
+| Action                     | Method   | Endpoint               |
+| -------------------------- | -------- | ---------------------- |
+| Create a comment on a post | `POST`   | `/api/v1/comments/:id` |
+| Update a comment           | `PUT`    | `/api/v1/comments/:id` |
+| Delete a comment           | `DELETE` | `/api/v1/comments/:id` |
 
-| Parameter        | Type     | Description    | Required |
-| :--------------- | :------- | :------------- | :------- |
-| `authentication` | `string` | Your token     | yes      |
-| `id`             | `string` | ID of the post | yes      |
+For comment endpoints, confirm whether `:id` refers to the post ID or the comment ID for each action. The existing documentation uses inconsistent descriptions.
 
-# **Comment API Reference**
+## 🛡️ Security and Configuration Notes
 
-## **Create Comment**
+- Keep `.env` out of version control; add it to `.gitignore`.
+- Use a strong, private JWT secret.
+- Validate and sanitize incoming request data.
+- Protect private endpoints with authentication and authorization middleware.
+- Enforce admin permissions on admin-only routes.
+- Avoid exposing passwords, tokens, or private user information in API responses and logs.
+- Confirm that the deployed base URL and all listed endpoints are current.
 
-```http
-  POST /api/v1/comments/:id
-```
+## 📝 Before Publishing
 
-| Parameter        | Type     | Description    | Required |
-| :--------------- | :------- | :------------- | :------- |
-| `authentication` | `string` | Your token     | yes      |
-| `id`             | `string` | ID of the post | yes      |
-
-## **Delete Comment**
-
-```http
-  DELETE /api/v1/comments/:id
-```
-
-| Parameter        | Type     | Description       | Required |
-| :--------------- | :------- | :---------------- | :------- |
-| `authentication` | `string` | Your token        | yes      |
-| `id`             | `string` | ID of the comment | yes      |
-
-## **Update Comment**
-
-```http
-  PUT /api/v1/comments/:id
-```
-
-| Parameter        | Type     | Description    | Required |
-| :--------------- | :------- | :------------- | :------- |
-| `authentication` | `string` | Your token     | yes      |
-| `id`             | `string` | ID of the post | yes      |
+- [ ] Replace `YOUR_GITHUB_REPOSITORY_URL` and `YOUR_PROJECT_DIRECTORY` in the setup instructions.
+- [ ] Add your Upwork badge only after you have your public profile URL.
+- [ ] Confirm all endpoint methods and paths against your Express route files.
+- [ ] Confirm the exact environment variables and npm scripts from your project.
+- [ ] Test the sample requests using Postman or another API client.
+- [ ] Ensure no credentials, tokens, or private information are committed.
